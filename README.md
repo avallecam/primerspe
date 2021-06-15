@@ -40,8 +40,15 @@ Install Packages -&gt; Install from -&gt; Package Archive File (.zip;
 
 ## `learnr` tutorial
 
-Finalmente, en la consola correr las siguientes líneas para construir
-los tutoriales en tu computador.
+Puedes acceder a los tutoriales de dos formas:
+
+-   A través de un acceso web en dos ventanas distintas
+    [aquí](https://avallecam.shinyapps.io/04-programacion-basica/) y
+    [aquí](https://andree-adolfo-valle-campos.shinyapps.io/04-programacion-basica/)
+    (sólo disponible para el tutorial 01)
+
+-   Desde tu computador. Para ello en la consola corre las siguientes
+    líneas para construir los tutoriales en tu computador.
 
 ``` r
 # instalar learner

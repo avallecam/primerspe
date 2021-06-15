@@ -168,7 +168,7 @@ question("¿Qué argumentos de la `rnorm()` son opcionales?",
 
 ### rnorm() 1
 
-Utilice `rnrom()` para generar 100 valores normales aleatorios con una media de 100 y una desviación estándar de 15.
+Utilice `rnorm()` para generar 100 valores normales aleatorios con una media de 100 y una desviación estándar de 15.
 
 ```{r arguments-3, exercise = TRUE}
 
