@@ -26,12 +26,22 @@ if(!require("remotes")) install.packages("remotes")
 remotes::install_github("avallecam/primerspe")
 ```
 
-También puedes instalarlo descargando el archivo `.tar.gz` o `.zip`
-(este sólo funciona en Windows) e instalar el paquete `primerspe` desde
-la opción **Tools -&gt; Install Packages -&gt; Install from -&gt;
-Package Archive File (.zip; .tar.gz)**.
+También puedes instalarlo descargando el archivo:
+
+-   En Windows:
+    [`.zip`](https://github.com/avallecam/primerspe/raw/main/primerspe_0.0.0.9000.zip)
+    o
+-   En otro sistema operativo:
+    [`.tar.gz`](https://github.com/avallecam/primerspe/raw/main/primerspe_0.0.0.9000.tar.gz)
+
+Luego, desde Rstudio instalar el paquete desde la opción **Tools -&gt;
+Install Packages -&gt; Install from -&gt; Package Archive File (.zip;
+.tar.gz)**.
 
 ## `learnr` tutorial
+
+Finalmente, en la consola correr las siguientes líneas para construir
+los tutoriales en tu computador.
 
 ``` r
 # instalar learner
