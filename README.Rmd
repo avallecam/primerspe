@@ -20,37 +20,33 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/primerspe)](https://CRAN.R-project.org/package=primerspe)
 <!-- badges: end -->
 
-The goal of primerspe is to ...
+The goal of primerspe is to have a local replicate of Rstudio primers. The original material was translated to Spanish for educational purposes.
 
 ## Installation
 
-You can install the released version of primerspe from [CRAN](https://CRAN.R-project.org) with:
+You can install the developmental version of `primerspe` with:
+
+<!-- You can install the released version of primerspe from [CRAN](https://CRAN.R-project.org) with: -->
 
 ``` r
-install.packages("primerspe")
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("avallecam/primerspe")
 ```
 
-## Example
+También puedes instalarlo descargando el archivo `.tar.gz` o `.zip` (este sólo funciona en Windows) e instalar el paquete `primerspe` desde la opción __Tools -> Install Packages -> Install from -> Package Archive File (.zip; .tar.gz)__. Si tienes la última versión de RStudio aparecerá en tu panel de __Tutorial__.
 
-This is a basic example which shows you how to solve a common problem:
+## `learnr` tutorial
 
-```{r example}
-library(primerspe)
-## basic example code
+```{r example, eval=FALSE,echo=TRUE}
+# install learner and run tutorial
+if(!require("learnr")) install.packages("learnr")
+learnr::run_tutorial(name = "04-programacion-basica",package = "primerspe")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Referencias
 
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+- Rstudio Primers https://rstudio.cloud/learn/primers
+- Taller MetaDocencia LatinR Rladies https://github.com/yabellini/curso_learnr
+- Generando tutoriales interactivos https://yabellini.netlify.app/es/post/tutorialesconlearnr/
+- Empaquetando tutoriales interactivos https://yabellini.netlify.app/es/post/empaquetandotutoriales/
+- RECON Learn tutorials in Spanish https://www.reconlearn.org/topics/spanish.html
