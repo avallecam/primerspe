@@ -1,0 +1,639 @@
+---
+title: "Funciones, parte I"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to set up R and RStudio on your machine. We will also demonstrate
+  how to install R packages from CRAN, and install the tidyverse package.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+#library(nycflights13)
+#library(Lahman)
+knitr::opts_chunk$set()
+```
+
+## Funciones
+
+Las funciones son los verbos de R. Cuando haces algo en R, lo haces ejecutando una funcion. Por ejemplo,
+
+- Para obtener un logaritmo, tu ejecutas la funcion **log**: log(2.71).
+- Para obtener la media de un conjunto de numeros, ejecutas la funcion llamada **mean**: mean(c(15,20,18,16,10)).
+- Para sumar numeros, ejecutas la funcion +: 1 + 2.
+
+Pero, que es una funcion?
+
+Una funcion esta compuesto por simples lineas de codigo que se empaquetada de manera que sea facil de utilizar. 
+
+**EMPECEMOS!**
+
+## Partes de una funcion
+
+###
+
+Todas las funciones de R tienen 3 partes:
+
+1. Un cuerpo (body)
+2. Un conjunto de argumentos formales (formal arguments)
+3. Un entorno (environment)
+
+Puedes inspeccionar cada parte de una funcion con 3 diferentes funciones:
+
+1. `body()`
+2. `formals()`
+3. `environment()`
+
+Usaremos estas funciones para ver como trabaja la funcion `xor`. xor es un operador logico que retorna TRUE si uno de sus dos argumentos evaluados es TRUE.
+
+### Resumen de una funcion
+
+Si ejecutamos el nombre de la funcion, esto nos muestra el resumen y las partes de la funcion.
+
+Ejecuta `xor`
+
+```{r filter1, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+### body()    
+
+- Ejecute `body(xor)` para visualizar el codigo del cuerpo de esta funcion xor.
+
+```{r filter2, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+### body() - Parentesis 
+
+`xor` contiene solo una linea de codigo como pueden ver, pero este caso no siempre es asi. Una funcion puede tener muchas lineas de codigo. <br></br>
+Por ejemplo: Veamos el cuerpo del codigo de la funcion `as.list.data.frame`. Cuantas lineas de codigo tiene?
+
+
+```{r filter3, exercise = TRUE, exercise.eval = FALSE}
+body(as.list.data.frame)
+```
+
+### formals()
+
+Generalmente, una funcion va a necesitar valores o inputs para hacer su trabajo. Estos valores son los _argumentos formales_ de la funcion.<br></br>
+`formals()` retorna una lista con los argumentos formales de una funcion. Algunas funciones no presentan argumentos, lo cual al usar `formal()` retornara `NULL` <br></br>
+
+- Ejecute `formals(xor)` para visualizar los argumentos de la funcion xor
+
+```{r filter4, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+### environment()
+
+Cada funcion esta asociada con un entorno de R. Aprenderemos mas sobre los entornos mas adelante, asi que no necesita preocuparse por ellos ahora. Sin embargo, buscar el entorno de una función es una forma practica de saber en que paquete viene la funcion.
+
+- Ejecute `environment(xor)` para visualizar el entorno asociado con la funcion xor.
+
+```{r filter5, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+### Presentacion de apoyo
+
+Pasaremos a una presentacion que refuerze lo visto: 
+[Hacer click aqui antes de pasar a la siguiente seccion!](https://docs.google.com/presentation/d/1OJ8dOI_HJL_p_LwCzhfp7ebnwAqQdRNR/edit#slide=id.p2)
+
+### Quiz
+
+```{r logicals, echo = FALSE}
+question(" Cual de las siguientes opciones no es una parte de una funcion? ",
+         answer("Un cuerpo (body)", message = "Si es una parte de una funcion."),
+         answer("Un nombre (name)", correct = T ),
+         answer("Argumentos formales (formal arguments)", message = "Si es una parte de una funcion."),
+         answer("Un entorno (enviroment)", message = "Si es una parte de una funcion."),
+         allow_retry = TRUE
+)
+```
+
+### Primitives
+
+Ademas, debes saber sobre una importante clase de funciones de R llamadas primitivas (primitives). Estas funciones llaman a algoritmos implementados internamente que estan escrito en lenguajes de programacion de bajo nivel (es decir, en lenguajes de programacion mas primitiva).
+
+Las funciones primitivas estan disenadas para ejecutarse a una velocidad alta, pero no sera posible inspeccionar su partes o componentes. 
+
+Veamos que pasa si inspeccionamos el contenido de la funcion `log`, la cual es una funcion primitiva.
+
+```{r filter6, exercise = TRUE, exercise.eval = FALSE}
+# log
+```
+
+
+## Ejecuntado funciones
+
+###
+
+Para llamar a una funcion de R, escriba su nombre seguido inmediatamente por un parentesis abierto y finalmente por un parentesis cerrado. 
+
+
+**Asi no!**
+
+```{r}
+Sys.Date
+```
+
+**Esto es lo correcto**
+
+```{r}
+Sys.Date()
+```
+
+Si intentas ejecutar una funcion y ocurre nada, comprueba si has incluido el parentesis de cierre.
+
+### Practiquemos con xor
+
+Ejercicio resuelto:
+
+**Pregunta: El paciente Pepito tiene COVID?**
+
+_________________________________________________
+
+1) Veamos cuales son los argumentos de `xor`
+
+```{r}
+formals(xor)
+```
+
+###
+_________________________________________________
+
+2) Creamos unos objetos que indiquen los reultados de Pepito
+
+```{r}
+result_ant <- 'POSITIVO'
+result_pcr <- 'NINGUNO'
+```
+
+###
+_________________________________________________
+
+3) Aplicamos la funcion `xor` para saber si Pepito tiene COVID
+
+**- De una manera**
+
+```{r}
+xor(x= result_ant == 'POSITIVO' , y = result_pcr == 'POSITIVO')
+```
+
+###
+
+**- De otra manera**
+
+```{r}
+xor(result_ant == 'POSITIVO' , result_pcr == 'POSITIVO')
+```
+
+### Valores por defecto (default values)
+
+Algunas funciones de R contienen valores por defecto para una o mas de sus argumentos. En este caso, no es necesario darle un valor a aquellos argumentos cuando se usa la funcion. Si no le das un valor, la funcion usara su valor por defecto.
+
+Sabras que un argumento viene con un valor por defecto, si el argumento aparece con un valor en la lista de `formals()`.
+
+Ejemplo:
+
+- `rnorm` genera n valores aleatorios de una distritbucion normal. Cuando ejecutas `rnorm` puedes suplir la media y la desviacion estandar de la distribucion para obtener los valores, 
+- Verifica si `rnorm` usa algun valor por defecto. Cuales son esos argumentos? Cuales son sus valores?
+
+```{r filter7, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter7-solution}
+formals(rnorm)
+```
+
+- Ahora ejecuta la funcion `rnorm`
+
+```{r filter8, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter8-solution}
+rnorm(10)
+```
+
+### Ejercicio propuesto
+
+Nota: Usar la funcion `date2week` del paquete `aweek`, aplicando las buenas practicas de programacion.
+
+**Ejercicio: Convertir su fecha de nacimiento al ano y semana epidemiologica al que corresponde**
+
+_______________________________
+
+1) Cargar la libreria `aweek`
+
+```{r filter9, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter9-solution}
+library(aweek)
+```
+
+_______________________________
+
+2) Verifique los argumentos de la funcion `date2week`
+
+```{r filter10, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter10-solution}
+formals(date2week)
+```
+
+_______________________________
+
+3) Resuelva el ejercicio
+
+```{r filter11, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+
+## Recreo
+
+Tomemos un descanso de 5 minutos (Solo si el instructor cree conveniente tomar un tiempo)
+
+## Cuando escribir una funcion?
+
+###
+
+R viene con miles de funciones, y mas se escriben todos los dias. Si quieres hacer algo en R, hay muchas probabilidades que una funcion ya exista y pueda hacer eso que necesites.
+
+Pero que pasa si tu quieres hacer algo nuevo en R?, algo que no lo encuentras en alguna funcion?, que deberias hacer?
+
+**Escribir una funcion?**
+
+###
+
+No, mi estimad@. Simplemente escribe un codigo que resuelva tu problema.
+
+Pero que pasaria si ese codigo lo tienes que usar una y otra vez, como si fuera una parte de R? Entonces que deberias hacer?
+
+###
+
+<h3>**Escribe una funcion!**</h3>
+
+Este tutorial te ayudara como hacerlo.
+
+### Quiz
+
+Supongamos que necesitamos correr el siguiente codigo en 20 diferentes objetos, `sqrt(sum(x^2))`. (es decir, que x tomaria un valor distinto por cada vez que se usan esas funciones)
+
+```{r logicals-2, echo = FALSE}
+question(" Porque no querrias reescribir el codigo 20 veces? (marca todas las que correspondan) ",
+         answer("Reescribir toma tiempo", correct = T),
+         answer("Tipiar el codigo 20 veces crea 20 oportunidades de cometer un error", correct = T),
+         answer("Si necesito cambiar partes del codigo mas tarde, tendre que hacer el cambio en los 20 diferentes lugares", correct = T),
+         allow_retry = TRUE
+)
+```
+
+## Flujo de trabajo para construir una funcion
+
+### 
+
+Como debo de escribir mi codigo para convertirlo en funcion? Sigamos siempre estos 4 pasos:
+
+1. Creamos un objeto real de R (o conjunto de objetos) para usar en tu funcion.
+2. Escribe el codigo trabajando con el o los objetos reales previamente creados.
+3. Envuelve tu codigo basjo la sintaxis de una funcion, usando function().
+4. Asigna los nombres de tus objetos realos como argumentos para tu funcion.
+
+Estos pasos son la mejor forma de escribir funciones en R. Cuando sigas estos pasos, tus funciones te garantizaran 
+
+Empecemos a usar estos pasos para crear tu primera funcion.
+
+### Presentacion de apoyo
+
+Pasaremos a una presentacion que refuerze lo visto: 
+[Hacer click aqui antes de pasar a la siguiente seccion!](https://docs.google.com/presentation/d/1OJ8dOI_HJL_p_LwCzhfp7ebnwAqQdRNR/edit#slide=id.p4)
+
+### Parentesis sobre algunas funciones conocidas
+
+- `min(x)`: retorna el valor minimo de los elementos del objeto x
+- `sum(x)`: retorna el la suma de los elementos del objeto x
+
+Ejemplo:
+
+```{r}
+pesos = c(65, 80, 54, 91, 79)
+pesos
+```
+
+_________________
+
+```{r}
+min(pesos)
+```
+
+_________________
+
+```{r}
+sum(pesos)
+```
+
+### Ejercicio practico
+
+Para hacer esto mas real, ponganse en los zapatos de un profesor:
+
+Has dejado 10 tareas de tu curso a tus estudiantes y les dices que eliminaras la menor nota, y que su nota final sera el promedio de las 9 notas que quedan.
+
+Para hacerlo facil, tu quieres escribir una funcion en R tomando un vector con las 10 notas y obtener como resultado el promedio final.
+
+**Listo para empezar?**
+
+###
+
+**Recordemos el primer paso:**
+
+1. Crear un objeto real (o conjunto de objetos) para usarlo en tu funcion.
+
+**Resolvamos:**
+
+- Creamos un objeto llamado `notas` que contiene el vector `c(20, 15, 12, 17, 18, 16, 19, 19, 09, 18)`
+
+```{r filter20, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter20-solution}
+notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+```
+
+###
+
+**Recordemos el 2do paso:**
+
+2. Escribe el codigo de trabajo usando el(los) objeto(s) real(es)
+
+**Resolvamos:**
+
+Recordemos el esquema de calificacion: la nota final sera el promedio de las notas de las tareas sin contar la nota mas baja. Hay muchas maneras de calcular esto, pero todos los resolveremos de una sola manera.
+
+Use `sum()`, `min()`, `/`, `9` y parentesis para calcular el promedio final para el estudiante x
+
+```{r filter21, exercise = TRUE, exercise.eval = FALSE}
+notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+```
+
+```{r filter21-hint-1}
+# Usa el vector llamado notas para calcular la nota final
+```
+
+```{r filter21-hint-2}
+# Tu resultado debe salir igual a 17
+```
+
+```{r filter21-hint-3}
+(sum(notas) - min(notas)) / 9
+```
+
+###
+
+**Recordemos el 3er paso:**
+
+3. Envolver el condigo en la sintaxis de la funcion:
+
+La funcion `function()` construye una funcion a partir de un pedazo de codigo. Para usarlo, asignamos un nombre a nuestra funcion, luego llamamos a `function()` seguido por el simbolo `{`. Luego se escribe las lineas de codigo que vendria a ser el cuerpo de tu funcion, y finalmente cerramos con el simbolo `}`.
+
+Ejemplo:
+
+```{r}
+foo <- function() {
+ a <- 1
+ b <- 2
+ a + b
+}
+```
+
+*Nota: R solo devolvera el resultado de la ultima linea del cuerpo de codigo cuando llame a la función*
+
+**Resolvamos:**
+
+- Guardemos el codigo dentro como una funcion llamada `nota_final`.
+
+```{r filter22, exercise = TRUE, exercise.eval = FALSE}
+notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+(sum(notas) - min(notas)) / 9
+```
+
+```{r filter22-hint-1}
+# guardarlo en un objeto dandole un nombre
+```
+
+```{r filter22-hint-2}
+# Envolverlo con usando function() { }
+```
+
+```{r filter22-hint-3}
+nota_final <- function(){
+  notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+ (sum(notas) - min(notas)) / 9
+}
+```
+
+###
+
+**Recordemos el 4to paso:**
+
+4. Asignamos los nombres de tus objetos reales como argumentos de tu funcion
+
+Como le dices a R que tus objetos van a ser los argumentos de tu funcion?
+
+Coloca los nombres de los objetos en los parentesis de `function()`. Si tuvieras mas de un argumento, separalos con una coma.
+
+**Resolvamos:**
+
+- Agrega los argumentos a tu funcion
+
+```{r filter23, exercise = TRUE, exercise.eval = FALSE}
+nota_final <- function() {
+  #notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+  (sum(notas) - min(notas)) / 9
+}
+```
+
+```{r filter23-solution}
+nota_final <- function(notas) {
+  #notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+  (sum(notas) - min(notas)) / 9
+}
+```
+
+```{r, include=F}
+nota_final <- function(notas) {
+  #notas <- c(20, 15, 12, 17, 18, 16, 19, 18, 09, 18)
+  (sum(notas) - min(notas)) / 9
+}
+```
+
+###
+
+**Excelente trabajo!** Terminaste de construir tu funcion `nota_final`, la cual te permite calcular la nota final de un estudiante.
+
+- Ahora intenta calcular la nota final de panchito, el cual tiene las siguientes notas: 12, 15, 18, 15, 20, 07, 10, 16, 18, 20.
+
+```{r filter25, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter25-hint-1}
+# Crea el vector con las notas
+#panchito <- c(12, 15, 18, 15, 20, 07, 10, 16, 18, 20)
+```
+
+```{r filter25-hint-2}
+# usa la funcion ya creada, asignando al argumento notas tu vector creado
+```
+
+```{r filter25-solution}
+panchito <- c(12, 15, 18, 15, 20, 07, 10, 16, 18, 20)
+nota_final(panchito)
+```
+
+### Quiz 
+
+```{r logicals-3, echo = FALSE}
+question(" Cual es el primer paso para construir una funcion? ",
+         answer("Envolver er codigo en la sitaxis de function()"),
+         answer("Crear el(los) objeto(s) real(les)", correct = T),
+         answer("Asignamos los nombres de tus objetos reales como argumentos de tu funcion"),
+         answer("Escribe el codigo de trabajo usando el(los) objeto(s) real(es)"),
+         allow_retry = TRUE
+)
+```
+
+###
+
+```{r logicals-4, echo = FALSE}
+question(" Cual es el segundo paso para construir una funcion? ",
+         answer("Envolver er codigo en la sitaxis de function()"),
+         answer("Crear el(los) objeto(s) real(les)"),
+         answer("Asignamos los nombres de tus objetos reales como argumentos de tu funcion"),
+         answer("Escribe el codigo de trabajo usando el(los) objeto(s) real(es)", correct = T),
+         allow_retry = TRUE
+)
+```
+
+###
+
+```{r logicals-5, echo = FALSE}
+question(" Cual es el tercer paso para construir una funcion? ",
+         answer("Envolver er codigo en la sitaxis de function()", correct = T),
+         answer("Crear el(los) objeto(s) real(les)"),
+         answer("Asignamos los nombres de tus objetos reales como argumentos de tu funcion"),
+         answer("Escribe el codigo de trabajo usando el(los) objeto(s) real(es)"),
+         allow_retry = TRUE
+)
+```
+
+###
+
+```{r logicals-6, echo = FALSE}
+question(" Cual es el cuarto paso para construir una funcion? ",
+         answer("Envolver er codigo en la sitaxis de function()"),
+         answer("Crear el(los) objeto(s) real(les)",),
+         answer("Asignamos los nombres de tus objetos reales como argumentos de tu funcion", correct = T),
+         answer("Escribe el codigo de trabajo usando el(los) objeto(s) real(es)"),
+         allow_retry = TRUE
+)
+```
+
+
+### Ejercicio propuesto
+
+Necesitamos crear una funcion para calcular la tasa de incidencia de un lugar:
+
+Formula: n° de casos / n° de poblacion * 10000
+
+###
+
+Paso 1:
+
+```{r filter26, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter26-hint-1}
+# Crea dos objetos, uno para el numero de casos y otro para la poblacion
+```
+__________________
+
+
+###
+
+Paso 2:
+
+```{r filter27, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter27-hint-1}
+# Usa los objetos para calcular la tasa de incidencia
+```
+__________________
+
+
+###
+
+Paso 3:
+
+Llama a tu funcion `tasa_inc`
+
+```{r filter28, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter28-hint-1}
+# envuelvelo con function()
+```
+
+__________________
+
+
+###
+
+Paso 4:
+
+```{r filter29, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r filter29-hint-1}
+# Coloca los argumentos
+```
+
+###
+
+```{r echo = F}
+tasa_inc <- function(x, y){
+  x/y*10000
+}
+```
+
+Pruebalo con los siguientes datos:
+
+```{r filter30, exercise = TRUE, exercise.eval = FALSE}
+n_casos <- 50
+n_pobla <- 60000
+```
+
+```{r filter30-hint-1}
+# Asigna esos valores a tus argumentos de tu funcion
+```
+
+### Fin
+
+Gracias por su tiempo y dedicacion! <3

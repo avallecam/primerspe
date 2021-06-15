@@ -1,0 +1,919 @@
+---
+title: "Programación básica"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+tutorial:
+  # id: "com.rstudio.primers.04-programming-basics"
+  version: 1.0
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
+  list(message = check_code, correct = TRUE, location = "append")
+}
+tutorial_options(exercise.timelimit = 60, exercise.checker = checker)
+```
+
+```{r, context="server-start", include=FALSE,eval=FALSE}
+# Capture metrics only if running an official primer hosted by RStudio
+# library(curl)
+# library(later)
+# tryCatch(
+#   source("https://metrics.rstudioprimers.com/learnr/installMetrics", local=TRUE), 
+#   error = function(e){ 
+#     print("Warning: An error occurred with the tracking code.")
+#   }
+# )
+```
+
+```{r, context = "render", results = 'asis', echo = FALSE,eval=FALSE}
+# tryCatch(
+#   source("https://metrics.rstudioprimers.com/learnr/installClient", local=TRUE)$value,
+#   error = function(e){ 
+#     print("Warning: An error occurred with the client code.")
+#   }
+# )
+```
+
+## Bienvenido 
+
+### Bienvenido a R
+
+R es más fácil de usar cuando se sabe cómo funciona el lenguaje R. Este tutorial le enseñará el conocimiento implícito de fondo que informa cada pieza de código R. Aprenderá sobre:
+
+* **Funciones** y sus **argumentos**
+* **Objetos**
+* Los tipos de datos básicos de R 
+* Las estructuras de datos básicas de R, incluyendo los **vectores**, **operadores** y las **listas**.
+* El sistema de paquetes de R
+
+> El presente material está basado en [Rstudio Primers - The Basics - Programming basics](https://rstudio.cloud/learn/primers/1.2) 
+> (licencia [CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/), 
+> fuente original en [GitHub](https://github.com/rstudio-education/primers/blob/master/basics/04-Programming-Basics/04-Programming-Basics.Rmd)).
+> Los cambios realizados aquí son: traducción al español no certificada y la sección de operadores y retos temáticos.
+
+
+## Funciones 
+
+### Funciones
+
+![](https://vimeo.com/220490105)
+
+### Ejecutar una función
+
+¿Puedes usar la función `sqrt()` en el _chunk_ de abajo para calcular la raíz cuadrada de 962?
+
+```{r functions-1, exercise = TRUE}
+
+```
+
+```{r functions-1-solution}
+sqrt(961)
+```
+
+### Código
+
+Utilice el siguiente _chunk_ para examinar el código que ejecuta `sqrt()`.
+
+```{r functions-2, exercise = TRUE}
+
+```
+
+```{r functions-2-solution}
+sqrt
+```
+
+```{r functions-2-check}
+"¡Buen trabajo! sqrt activa inmediatamente un algoritmo de bajo nivel optimizado para el rendimiento, por lo que no hay mucho código que ver."
+```
+
+### lm
+
+Compare el código de `sqrt()` con el de otra función de R, `lm()`. Examine el cuerpo del código de `lm()` en el _chunk_ de abajo.
+
+```{r functions-3, exercise = TRUE}
+
+```
+
+```{r functions-3-solution}
+lm
+```
+
+### páginas de ayuda
+
+Vaya, `lm()` ejecuta mucho código. ¿Qué hace? Abre la página de ayuda de `lm()` en el _chunk_ de abajo y descúbrelo.
+
+```{r functions-4, exercise = TRUE}
+
+```
+
+```{r functions-4-solution}
+?lm
+```
+
+```{r functions-4-check}
+"¡Buen trabajo! `lm()` es la función de R para ajustar modelos lineales básicos. No es de extrañar que se ejecute tanto código."
+```
+
+### Comentarios del código
+
+¿Qué crees que devolverá el _chunk_ de abajo? Ejecútalo y verás. El resultado debería ser nada. R no ejecutará nada en una línea después de un símbolo `#`. Esto es útil porque le permite escribir comentarios legibles en su código: simplemente coloque los comentarios después de un `#`. Ahora borre el `#` y vuelva a ejecutar el _chunk_. Deberías ver el resultado.
+
+```{r functions-5, exercise = TRUE}
+# sqrt(961)
+```
+
+```{r functions-5-solution}
+sqrt(961)
+```
+
+
+## Argumentos
+
+### Argumentos
+
+![](https://vimeo.com/220490157)
+
+### args()
+
+`rnorm()` es una función que genera variables aleatorias a partir de una distribución normal. Encuentra los argumentos de `rnorm()`.
+
+```{r arguments-1, exercise = TRUE}
+
+```
+
+```{r arguments-1-solution}
+args(rnorm)
+```
+
+```{r arguments-1-check}
+"¡Buen trabajo! `n` especifica el número de variables aleatorias normales a generar. `mean` y `sd` describen la distribución con la que generar los valores aleatorios." 
+```
+
+### argumentos optionales
+
+```{r arguments-2, echo = FALSE}
+question("¿Qué argumentos de la `rnorm()` son opcionales?",
+         answer("n"),
+         answer("mean", correct = TRUE),
+         answer("sd", correct = TRUE),
+         allow_retry = TRUE,
+         correct = "`n` no es un argumento opcional porque no tiene un valor por defecto.")
+```
+
+### rnorm() 1
+
+Utilice `rnrom()` para generar 100 valores normales aleatorios con una media de 100 y una desviación estándar de 15.
+
+```{r arguments-3, exercise = TRUE}
+
+```
+
+```{r arguments-3-solution}
+rnorm(100, mean = 100, sd = 50)
+```
+
+### rnorm() 2
+
+¿Puedes detectar el error en el código de abajo? Corrige el código y vuelve a ejecutarlo.
+
+```{r arguments-4, exercise = TRUE}
+rnorm(100, mu = 100, sd = 50)
+```
+
+```{r arguments-4-solution}
+rnorm(100, mean = 100, sd = 50)
+```
+
+### ¡Retroalimentación! 1
+
+1. Diferenciar __argumentos__ _obligatorios_ y _opcionales_
+
+```{r retro11, exercise = TRUE}
+rnorm()
+```
+
+### ¡Retroalimentación! 2
+
+2. Acudir (siempre) a la __documentación de ayuda__ para conocer más sobre los _argumentos_ dentro de cada función (sobretodo con funciones nuevas!)
+
+```{r retro12, exercise = TRUE}
+?rnorm
+```
+
+### ¡Retroalimentación! 3
+
+3. Revisa (siempre) los __ejemplos disponibles__ al final de la documentación de _ayuda_. Más aún si el paquete tiene documentación en _página web_ ([ejemplo](https://dplyr.tidyverse.org/articles/rowwise.html)) ¡ya están reproducidos!
+
+## Objetos
+
+### Objetos
+
+![](https://vimeo.com/220493412)
+
+### Nombres de objetos
+
+Puedes elegir casi cualquier nombre que quieras para un objeto, siempre que el nombre no empiece por un número o un carácter especial como `+`, `-`, `*`, `/`, `^`, `!`, `@`, o `&`. 
+
+```{r objects-1, echo = FALSE}
+question("¿Cuáles de estos serían nombres de objetos válidos?",
+  answer("hoy", correct = TRUE),
+  answer("1st"),
+  answer("+1"),
+  answer("vars", correct = TRUE),
+  answer("\\^_^"),
+  answer("foo", correct = TRUE),
+  allow_retry = TRUE,
+  correct = "Recuerde que los nombres más útiles le recordarán lo que pone en su objeto."
+)
+```
+
+### Usando objetos
+
+En el siguiente _chunk_, guarda los resultados de `rnorm(100, mean = 100, sd = 15)` en un objeto llamado `data`. Luego, en una nueva línea, llama a la función `hist()` en `data` para trazar un histograma de los valores aleatorios.
+
+```{r objects-2, exercise = TRUE}
+
+```
+
+```{r objects-2-solution}
+data <- rnorm(100, mean = 100, sd = 15)
+hist(data)
+```
+
+### ¿Y si?
+
+¿Qué crees que pasaría si asignaras `datos` a un nuevo objeto llamado `copia`, de esta manera? Ejecuta el código y luego inspecciona tanto "datos" como "copia".
+
+```{r objects-3, exercise = TRUE}
+datos <- rnorm(100, mean = 100, sd = 15)
+copia <- datos
+```
+
+```{r objects-3-solution}
+datos <- rnorm(100, mean = 100, sd = 15)
+copia <- datos
+datos
+copia
+```
+
+```{r objects-3-check}
+"Buen trabajo. R guarda una copia del contenido en datos a copiar."
+```
+
+### Bases de datos
+
+Los objetos proporcionan una forma fácil de almacenar Bases de datos en R. De hecho, R viene con muchas Bases de datos de juguete precargados. Examine el contenido de `iris` para ver una Base de datos de juguete clásico. Sugerencia: ¿cómo podría aprender más sobre el objeto `iris`?
+
+```{r objects-4, exercise = TRUE}
+
+```
+
+```{r objects-4-solution}
+iris
+```
+
+```{r objects-4-check}
+"¡Buen trabajo! Puedes aprender más sobre iris examinando su página de ayuda con `?iris`."
+```
+
+### rm()
+
+¿Qué pasa si accidentalmente sobrescribes un objeto? Si ese objeto venía con R o uno de sus paquetes, puedes restaurar la versión original del objeto eliminando tu versión con `rm()`. Ejecute `rm()` en `iris` a continuación para restaurar el conjunto de datos de iris.
+
+```{r objects-5, exercise = TRUE}
+iris <- 1
+iris
+```
+
+```{r objects-5-solution}
+iris <- 1
+iris
+rm(iris)
+iris
+```
+
+```{r objects-5-check}
+"Buen trabajo. Desafortunadamente, `rm()` no puede ayudarte si sobrescribes uno de tus propios objetos."
+```
+
+## Vectores
+
+### Vectores
+
+![](https://vimeo.com/220490316)
+
+### Crear un vector
+
+En el _chunk_ de abajo, crea un vector que contenga los enteros del uno al diez.
+
+```{r vectors-1, exercise = TRUE}
+
+```
+
+```{r vectors-1-solution}
+c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```
+
+### :
+
+Si su vector contiene una secuencia de enteros contiguos, puede crearlo con el atajo `:`. Ejecuta `1:10` en el _chunk_ de abajo. ¿Qué obtienes? ¿Qué supones que devolvería `1:20`?
+
+```{r vectors-2, exercise = TRUE}
+
+```
+
+```{r vectors-2-solution}
+1:10
+```
+
+### []
+
+Puedes extraer cualquier elemento de un vector colocando un par de corchetes detrás del vector. Dentro de los paréntesis coloque el número del elemento que desea extraer. Por ejemplo, `vec[3]` devolvería el tercer elemento del vector llamado `vec`.
+
+Utiliza el _chunk_ de abajo para extraer el cuarto elemento de `vec`.
+
+```{r vectors-3, exercise = TRUE}
+vec <- c(1, 2, 4, 8, 16)
+```
+
+```{r vectors-3-solution}
+vec <- c(1, 2, 4, 8, 16)
+vec[4]
+```
+
+### Más []
+
+También puede utilizar `[]` para extraer varios elementos de un vector. Coloca el vector `c(1,2,5)` entre los paréntesis de abajo. ¿Qué devuelve R?
+
+```{r vectors-4, exercise = TRUE}
+vec <- c(1, 2, 4, 8, 16)
+vec[]
+```
+
+```{r vectors-4-solution}
+vec <- c(1, 2, 4, 8, 16)
+vec[c(1,2,5)]
+```
+
+### Nombres
+
+Si los elementos de su vector tienen nombres, puede extraerlos por nombre. Para ello, coloque un nombre o un vector de nombres entre los paréntesis detrás de un vector. Rodea cada nombre con comillas, por ejemplo `vec2[c("alpha", "beta")]`.
+
+Extraiga el elemento llamado gamma del vector siguiente.
+
+```{r vectors-5, exercise = TRUE}
+vec2 <- c(alpha = 1, beta = 2, gamma = 3)
+```
+
+```{r vectors-5-solution}
+vec2 <- c(alpha = 1, beta = 2, gamma = 3)
+vec2["gamma"]
+```
+
+### Operaciones vectorizadas
+
+Predice lo que devolverá el código de abajo. Luego mira el resultado.
+
+```{r vectors-6, exercise = TRUE}
+c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) + c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```
+
+```{r vectors-6-check}
+"¡Buen trabajo! Como muchas funciones de R, los operadores matemáticos de R están vectorizados: están diseñados para trabajar con vectores repitiendo la operación para cada par de elementos."
+```
+
+### Reciclaje de vectores
+
+Predice lo que devolverá el código de abajo. Luego mira el resultado.
+
+```{r vectors-7, exercise = TRUE}
+1 + c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+```
+
+```{r vectors-7-check}
+"¡Buen trabajo! Siempre que intente trabajar con vectores de longitudes variables (recuerde que `1` es un vector de longitud uno), R repetirá el vector más corto según sea necesario para calcular el resultado."
+```
+
+
+### ¡Retroalimentación! 1
+
+1. Recuerda usar __nombres explícitos__ con frecuencia. No importa si son largos. Mejor es que sea _explícito y largo_ que simplificado y fácil de olvidar. 
+
+Mejor aún si usas un formato [snakecase](https://tazinho.github.io/snakecase/articles/introducing-the-snakecase-package.html#import)!
+
+```{r retro21, exercise = TRUE}
+fecha_inicio_sintomas <- "2020-06-11"
+```
+
+### ¡Retroalimentación! 2
+
+2. Los nombres explícitos aplica para __Bases de datos__, sus __nombres de variables y nombres de valores__
+
+```{r retro22, exercise = TRUE}
+# if(!require("datos")) install.packages("datos")
+
+# ver el formato: elemento _ característica _ unidad de medida
+
+datos::pinguinos
+```
+
+### ¡Retroalimentación! 3
+
+3. En vectores, diferenciar los __valores__ y __localizadores__ de sus elementos
+
+```{r retro23, exercise = TRUE}
+vec <- c(1, 2, 4, 8, 16)
+vec[c(1,2,5)]
+```
+
+
+## Operadores y Retos
+
+### Operador `$`
+
+`$` actúa sobre objetos como Bases de datos. Permite extraer o reemplazar sus columnas como vectores.
+
+¿Cómo podrías extraer la columna `extra` de la base de datos `sleep` que aparece a continuación? Hazlo.
+
+```{r operator1, exercise = TRUE}
+sleep
+```
+
+```{r operator1-hint}
+# sleep$____
+```
+
+```{r operator1-solution}
+sleep$extra
+```
+
+```{r operator1-check}
+"¡Buen trabajo! Puedes aprender más sobre `$` examinando su página de ayuda con `?'$'`. sí, con esas comillas raras."
+```
+
+### Operador `[`
+
+`[` también actúa sobre objetos como Bases de datos, pero usa los índices o localizadores, por fila, por columna o por ambos.
+
+¿Cómo podrías extraer la 3ra fila, la 1ra columna y el elemento que cruza ambos localizadores de la base de datos `sleep`? Hazlo.
+
+```{r operator3, exercise = TRUE}
+sleep
+```
+
+```{r operator3-hint}
+# sleep[_,]
+# sleep[,_]
+# sleep[_,_]
+```
+
+```{r operator3-solution}
+# 3ra fila
+sleep[3,]
+
+# 1ra columna
+sleep[,1]
+
+# elemento en 3ra columna y 1ra fila
+sleep[3,1]
+```
+
+```{r operator3-check}
+"¡Buen trabajo! Puedes aprender más sobre `[` examinando su página de ayuda con `?'['`. Recuerda que puedes retirar elementos si pones el signo negativo dentro del localizador o índice."
+```
+
+
+### Operador `%in%`
+
+`%in%` es un operador binario que retorna un vector lógico (con resultados como `TRUE` o `FALSE`) indicando si hay una coincidencia o no con su operando izquierdo.
+
+Usa `%in%` para determinar qué elementos del vector `1:10` coinciden con el vector `c(1,3,5,9)`
+
+```{r binary1, exercise = TRUE}
+
+```
+
+```{r binary1-hint}
+# 1:10 ____ c(1,3,5,9)
+```
+
+```{r binary1-solution}
+1:10 %in% c(1,3,5,9)
+```
+
+```{r binary1-check}
+"¡Buen trabajo! Recuerda también que los vectores lógicos con valores `TRUE` o `FALSE` son equivalentes a 1 o 0, respectivamente. Incluso, puedes calcular cuántos elementos coinciden usando la función `sum()` sobre el resultado, ¡inténtalo!"
+```
+
+### ¿y con caracteres?
+
+Extrae la columna `group` de la base de datos `PlantGrowth`. Calcula ¿cuántas observaciones corresponden a tratamientos `trt1` y `trt2`? Usa los operadores `$` y `%in%` y la función `sum()`.
+
+```{r binary2, exercise = TRUE}
+PlantGrowth
+```
+
+```{r binary2-hint}
+# PlantGrowth$_____
+# PlantGrowth$_____ %in% c("____","____")
+# sum(PlantGrowth$_____ %in% c("____","____"))
+```
+
+```{r binary2-solution}
+# extraer columna
+PlantGrowth$group
+
+# coincidencia entre columna y vector
+PlantGrowth$group %in% c("trt1","trt2")
+
+# conteo de observaciones coincidentes
+sum(PlantGrowth$group %in% c("trt1","trt2"))
+```
+
+```{r binary2-check}
+"¡Buen trabajo! Puedes aprender más sobre operadores binarios examinando su página de ayuda con `?'%in%'`. sí, también con esas comillas raras."
+```
+
+### Reto 1
+
+Importa la base de datos `linelist`. Realiza los siguientes cálculos:
+
+- Dentro de la columna `outcome`, calcula cuántos casos están identificados como muertos `Death`,
+- Dentro de la columna `outcome`, calcula cuántos casos están identificados con un desenlace conocido `Death` o `Recover`,
+- Calcula la razón de casos fatales. Para ello divide la cantidad de casos muertos por la cantidad casos con desenlace conocido.
+
+```{r reto1, exercise = TRUE, exercise.lines=10}
+library(tidyverse)
+ruta <- "https://github.com/reconhub/learn/raw/master/static/data/linelist_20140701.xlsx"
+linelist <- rio::import(ruta) %>%
+  as_tibble() %>%
+  mutate(across(.cols = date_of_infection:date_of_outcome,
+                .fns = as.Date,
+                format = "%Y-%m-%d"))
+```
+
+```{r reto1-solution}
+# numero de casos muertos
+n_muertes <- sum(linelist$outcome %in% "Death")
+
+# numero de casos con desenlace conocido muerte o recuperado
+n_desenlace_conocido <- sum(linelist$outcome %in% c("Death", "Recover"))
+
+# calcular razon de casos fatales. asignar a un vector
+razon_casos_fatales <- n_muertes / n_desenlace_conocido
+
+# mostrar resultado
+razon_casos_fatales
+```
+
+### ¡Ojo con `which()`!
+
+La función `which()` extrae el localizador o índice cuyo resultado lógico resulta `TRUE`. ¡No el valor, sino el localizador!
+
+Por ejemplo, ¿en qué posición se encuentra la letra `R` dentro del vector `LETTERS`?
+
+```{r which1, exercise = TRUE}
+
+```
+
+```{r which1-hint}
+# _____(LETTERS == "_")
+```
+
+```{r which1-solution}
+which(LETTERS == "R")
+```
+
+### ¿y con números?
+
+Usando el vector `10:1` (ojo, de 10 a 1), determina el orden de los elementos que tienen un valor mayor a 3.
+
+```{r which2, exercise = TRUE}
+
+```
+
+```{r which2-hint}
+# _____(____ > _)
+```
+
+```{r which2-solution}
+which(10:1 > 3)
+```
+
+```{r which2-check}
+"¡Buen trabajo! Recuerda que los vectores con valores de fechas funcionan de una misma forma que los numéricos, siempre y cuando estén en formato fecha y no como caracteres. ¡Ojo! which() no saca valores sino los localizadores o índices."
+```
+
+### Reto 2
+
+Con la base de datos `linelist` identificaremos filas con fechas inconsistentes, es decir con fechas de inicio de sintomas menor o igual a la fecha de infección reportada. Para ello, realiza los siguientes cálculos:
+
+- Pregunta qué elementos tienen un `date_of_onset` menor o igual a `date_of_infection`,
+- Asigna el resultado al objeto `mistake`,
+- Muestra qué localizadores contienen este error.
+- Dentro de la base de datos, muestra qué filas contienen estos errores. usa el operador `[`.
+- Dentro de la base de datos, retira las filas contienen estos errores. usa el operador `[`.
+
+```{r reto2, exercise = TRUE, exercise.lines=10}
+library(tidyverse)
+ruta <- "https://github.com/reconhub/learn/raw/master/static/data/linelist_20140701.xlsx"
+linelist <- rio::import(ruta) %>%
+  as_tibble() %>%
+  mutate(across(.cols = date_of_infection:date_of_outcome,
+                .fns = as.Date,
+                format = "%Y-%m-%d"))
+```
+
+```{r reto2-solution}
+# usar una prueba lógica (verdadero o falso) para identificar ¿cuáles cumplen?
+mistakes <- which(linelist$date_of_onset <= linelist$date_of_infection)
+
+# mostrar localizador de errores
+mistakes
+
+# mostrar filas erradas
+linelist[mistakes, ]
+
+# retirar filas erradas
+linelist[-mistakes, ]
+```
+
+### Una yapa
+
+De forma demostrativa, compartimos cómo resolver el mismo problema de arriba usando verbos del [tidyverse](https://www.tidyverse.org/)
+
+```{r yapa1, exercise = TRUE}
+library(tidyverse)
+ruta <- "https://github.com/reconhub/learn/raw/master/static/data/linelist_20140701.xlsx"
+linelist <- rio::import(ruta) %>%
+  as_tibble() %>%
+  mutate(across(.cols = date_of_infection:date_of_outcome,
+                .fns = as.Date,
+                format = "%Y-%m-%d"))
+
+# ---------------------------------------------- #
+
+# extraer inconsistencias
+linelist_mist <- linelist %>%
+  mutate(mistake=date_of_onset-date_of_infection) %>%
+  #values 0 or less
+  filter(mistake<=0) %>%
+  select(case_id) %>%
+  pull()
+
+# mostrar inconsistencias
+linelist_mist
+
+# retirar inconsistencias de base original
+linelist_clean <- linelist %>%
+  filter(!(case_id %in% linelist_mist))
+
+# mostrar filas usando magrittr::is_in()
+linelist %>%
+  filter(magrittr::is_in(case_id,linelist_mist))
+
+# retirar filas usando magrittr::is_in()
+linelist %>%
+  filter(!magrittr::is_in(case_id,linelist_mist))
+
+```
+
+
+### ¡Felicidades!
+
+¡Has culminado con la primera parte de este tutorial! Date una pausa :)
+
+## Tipos
+
+### Tipos
+
+![](https://vimeo.com/220490241)
+
+### Tipos atómicos
+
+```{r types1, echo = FALSE}
+question("¿Cuál de estos no es un tipo de dato atómico?",
+         answer("numeric/double"),
+         answer("integer"),
+         answer("character"),
+         answer("logical"),
+         answer("complex"),
+         answer("raw"),
+         answer("simple", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE)
+```
+
+### ¿Qué tipo?
+
+```{r types2, echo = FALSE}
+question('¿Qué tipo de datos es `"1L"`?',
+         answer("numeric/double"),
+         answer("integer", message = "Cerca. `1L` sería un entero, pero mira más de cerca."),
+         answer("character", correct = TRUE),
+         answer("logical"),
+         allow_retry = TRUE)
+```
+
+### Números enteros
+
+Crea un vector de enteros del uno al cinco. ¿Te imaginas por qué querrías usar números enteros (`integer`) en lugar de `numeric/double`?
+
+```{r types3, exercise = TRUE}
+
+```
+
+```{r types3-solution}
+c(1L, 2L, 3L, 4L, 5L)
+```
+
+### Aritmética de coma flotante
+
+Los ordenadores deben utilizar una cantidad finita de memoria para almacenar números decimales (que a veces pueden requerir una precisión infinita). Como resultado, algunos decimales sólo pueden guardarse como aproximaciones muy precisas. De vez en cuando notará los efectos secundarios de esta imprecisión, como los siguientes.
+
+Calcule la raíz cuadrada de dos, eleve al cuadrado la respuesta (por ejemplo, multiplique la raíz cuadrada de dos por la raíz cuadrada de dos) y luego reste dos al resultado. ¿Qué respuesta esperas? ¿Qué respuesta obtienes?
+
+```{r types4, exercise = TRUE}
+
+```
+
+```{r types4-solution}
+sqrt(2) * sqrt(2) - 2
+sqrt(2)^2 - 2
+```
+
+### Vectores
+
+```{r types5, echo = FALSE}
+question('¿Cuántos tipos de datos se pueden incluir en un solo vector?',
+         answer("1", correct = TRUE),
+         answer("6"),
+         answer("Todos los que quieras"),
+         allow_retry = TRUE)
+```
+
+### ¿Caracteres u objetos?
+
+Uno de los errores más comunes en R es llamar a un objeto cuando se quiere llamar a una cadena de caracteres y viceversa.
+
+```{r types6, echo = FALSE}
+question('¿Cuáles son los nombres de los objetos? ¿Cuál es la diferencia entre los nombres de objetos y las cadenas de caracteres?',
+         answer("foo", correct = TRUE),
+         answer('"num"'),
+         answer("mu", correct = TRUE),
+         answer('"sigma"'),
+         answer('"data"'),
+         answer("a", correct = TRUE),
+         allow_retry = TRUE,
+         correct = "Las cadenas de caracteres van entre comillas, los nombres de objetos no.")
+```
+
+## Listas
+
+### Listas
+
+![](https://vimeo.com/220490360)
+
+### Listas vs. vectores
+
+```{r lists1, echo = FALSE}
+question('¿Qué estructura(s) de datos podrías utilizar para almacenar estos datos en el mismo objeto? `1001`, `TRUE`, `"historias"`.',
+         answer("un vector"),
+         answer("una lista", correct = TRUE),
+         answer("ninguno"),
+         allow_retry = TRUE)
+```
+
+### Make a list
+
+Haz una lista que contenga los elementos `1001`, `TRUE`, y `"historias"`. Dale un nombre a cada elemento.
+
+```{r lists2, exercise = TRUE}
+
+```
+
+```{r lists2-solution}
+list(number = 1001, logical = TRUE, string = "historias")
+```
+
+### Extraer un elemento
+
+Extrae el número 1001 de la lista siguiente.
+
+```{r lists3, exercise = TRUE}
+things <- list(number = 1001, logical = TRUE, string = "historias")
+```
+
+```{r lists3-solution}
+things <- list(number = 1001, logical = TRUE, string = "historias")
+things$number
+```
+
+### Base de datos
+
+Se puede hacer una base de datos con la función `data.frame()`, que funciona de forma similar a `c()` y `list()`. Reúna los vectores siguientes en una base de datos con los nombres de las columnas `numbers`, `logicals`, `strings`.
+
+```{r lists4, exercise = TRUE}
+nums <- c(1, 2, 3, 4)
+logs <- c(TRUE, TRUE, FALSE, TRUE)
+strs <- c("apple", "banana", "carrot", "duck")
+```
+
+```{r lists4-solution}
+nums <- c(1, 2, 3, 4)
+logs <- c(TRUE, TRUE, FALSE, TRUE)
+strs <- c("apple", "banana", "carrot", "duck")
+data.frame(numbers = nums, logicals = logs, strings = strs)
+```
+
+```{r lists4-check}
+"Buen trabajo. Cuando haces una base de datos, debes seguir una regla: cada vector de columna debe tener la misma longitud."
+```
+
+### Extraer una columna
+
+Dado que una base de datos es un tipo de lista (con elementos con nombre), ¿cómo podrías extraer la columna `strings` de la base de datos `df` que aparece a continuación? Hazlo.
+
+```{r lists5, exercise = TRUE}
+nums <- c(1, 2, 3, 4)
+logs <- c(TRUE, TRUE, FALSE, TRUE)
+strs <- c("apple", "banana", "carrot", "duck")
+df <- data.frame(numbers = nums, logicals = logs, strings = strs)
+```
+
+```{r lists5-solution}
+df$strings
+```
+
+## Paquetes
+
+### Paquetes
+
+![](https://vimeo.com/220490447)
+
+### Un error común
+
+
+```{r packages1, echo = FALSE}
+question('¿Qué sugiere este mensaje de error tan común? `objecto _____ no encontrado.`',
+         answer("Has escrito mal el nombre de tu objeto"),
+         answer("Has olvidado cargar el paquete en el que viene ____"),
+         answer("Ambos", correct = TRUE),
+         allow_retry = TRUE)
+```
+
+### Cargar un paquete
+
+En el siguiente _chunk_, carga el paquete `tidyverse`. Cada vez que cargues un paquete, R también cargará todos los paquetes de los que depende el primero. `tidyverse` se aprovecha de esto para crear un atajo para cargar varios paquetes comunes a la vez. Cada vez que cargas `tidyverse`, `tidyverse` también carga `ggplot2`, `dplyr`, `tibble`, `tidyr`, `readr` y `purrr`.
+
+```{r packages2, exercise = TRUE}
+
+```
+
+```{r packages2-solution}
+library(tidyverse)
+```
+
+```{r packages2-check}
+"¡Buen trabajo! R mantendrá los paquetes cargados hasta que cierre su sesión de R. Cuando vuelvas a abrir R, tendrás que volver a cargar tus paquetes."
+```
+
+### Citas
+
+¿Sabías que `library()` es una función especial en R? Puedes pasarle a `library()` un nombre de paquete entre comillas, como `library("tidyverse")`, o sin comillas, como `library(tidyverse)`--¡ambos funcionarán! Esto no suele ocurrir con las funciones de R.
+
+En general, siempre debe utilizar las comillas a menos que esté escribiendo el _nombre_ de algo que ya está cargado en la memoria de R, como una función, vector o base de datos.
+
+### Instalar paquetes
+
+¿Pero qué pasa si el paquete que quieres cargar no está instalado en tu ordenador? ¿Cómo instalarías el paquete dplyr en tu propio ordenador?
+
+```{r packages3, exercise = TRUE}
+
+```
+
+```{r packages3-solution}
+install.packages("dplyr")
+```
+
+```{r packages3-check}
+"Buen trabajo. Sólo necesita instalar un paquete una vez, a menos que desee actualizar su copia local reinstalando el paquete. Tenga en cuenta que `install.packages()` _siempre_ requiere comillas alrededor del nombre del paquete."
+```
+
+### ¡Felicidades!
+
+Enhorabuena. Ahora tienes una idea formal de cómo funcionan los fundamentos de R. Aunque usted puede pensar en sí mismo como un científico de datos, esta breve formación en ciencias de la computación le ayudará a medida que analiza los datos. Cada vez que R hace algo inesperado, usted puede aplicar su conocimiento de cómo funciona R para averiguar lo que salió mal.
+
+### ¿Cómo puedo complementar lo aprendido?
+
+- Versión en español de “R for Data Science” https://es.r4ds.hadley.nz/index.html
+
+- Libro en inglés de R aplicada a la Epidemiología y Salud Pública https://epirhandbook.com/
+
+- Enlace en inglés para aprender atajos útiles dentro de Rstudio https://appsilon.com/rstudio-shortcuts-and-tips/
