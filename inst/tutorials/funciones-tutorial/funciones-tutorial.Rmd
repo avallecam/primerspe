@@ -28,7 +28,7 @@ Las funciones son los verbos de R. Cuando haces algo en R, lo haces ejecutando u
 
 Pero, que es una funcion?
 
-Una funcion esta compuesto por simples lineas de codigo que se empaquetada de manera que sea facil de utilizar. 
+Una funcion esta compuesto por simples lineas de codigo que se empaqueta de manera que sea facil de utilizar. 
 
 **EMPECEMOS!**
 
@@ -556,7 +556,7 @@ question(" Cual es el cuarto paso para construir una funcion? ",
 
 Necesitamos crear una funcion para calcular la tasa de incidencia de un lugar:
 
-Formula: n° de casos / n° de poblacion * 10000
+Formula: n de casos / n de poblacion * 10000
 
 ###
 
